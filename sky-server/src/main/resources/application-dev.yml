@@ -6,3 +6,9 @@ sky:
     database: sky_take_out
     username: root
     password: "20020725"
+  alioss:
+    endpoint: oss-cn-beijing.aliyuncs.com
+    #为了向github推送需要删除如下两个字段
+    access-key-id:
+    access-key-secret:
+    bucket-name: web-tlias-demo17gzm
