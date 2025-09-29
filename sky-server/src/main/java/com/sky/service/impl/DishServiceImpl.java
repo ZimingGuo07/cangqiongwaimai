@@ -112,4 +112,37 @@ public class DishServiceImpl implements DishService {
 
     }
 
+    @Override
+    public DishVO selectById(Long id) {
+        DishVO dishVo=new DishVO();
+        Dish dish=dishMapper.getById(id);
+        BeanUtils.copyProperties(dish,dishVo);
+
+        List<DishFlavor> dishFlavors=dishFlavorMapper.selectById(id);
+        dishVo.setFlavors(dishFlavors);
+
+        return dishVo;
+    }
+
+    @Override
+    public void updateDish(DishDTO dishDTO) {
+        //这种分成先分别包装成两个对象再作为参数传入数据库进行操作的方式很清晰
+        //包括像前面，分别获得从Mapper层包装的两个对象，然后再封装成一个对象
+
+        Dish dish=new Dish();
+        BeanUtils.copyProperties(dishDTO,dish);
+        dishMapper.update(dish);
+
+        dishFlavorMapper.deleteByDishId(dishDTO.getId());
+
+        List<DishFlavor> flavors = dishDTO.getFlavors();
+        if (flavors != null && flavors.size() > 0) {
+            flavors.forEach(dishFlavor -> {
+                dishFlavor.setDishId(dishDTO.getId());
+            });
+
+            dishFlavorMapper.insertBatch(flavors);
+        }
+    }
+
 }
