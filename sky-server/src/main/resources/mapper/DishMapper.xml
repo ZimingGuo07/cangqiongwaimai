@@ -39,7 +39,7 @@
         select dish.*,category.name as categoryName from sky_take_out.dish left join  sky_take_out.category on dish.category_id=category.id
         <where>
             <if test="categoryId != null">
-                and category_id = #{categoryId}
+                and dish.category_id = #{categoryId}
             </if>
             <if test="name != null">
                 and dish.name like concat('%',#{name},'%')
@@ -56,6 +56,9 @@
     </select>
     <select id="getById" resultType="com.sky.entity.Dish">
         select * from sky_take_out.dish where id=#{id};
+    </select>
+    <select id="queryDishesByCategoryId" resultType="com.sky.entity.Dish">
+        select * from sky_take_out.dish where category_id=#{categoryId}
     </select>
 
 

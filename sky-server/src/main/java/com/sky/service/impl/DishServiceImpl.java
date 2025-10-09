@@ -114,6 +114,7 @@ public class DishServiceImpl implements DishService {
 
     @Override
     public DishVO selectById(Long id) {
+        //说是查询的时候前端发送了一条查询分类名称语句，疑似是com.sky.controller.admin.CategoryController.list
         DishVO dishVo=new DishVO();
         Dish dish=dishMapper.getById(id);
         BeanUtils.copyProperties(dish,dishVo);
@@ -143,6 +144,18 @@ public class DishServiceImpl implements DishService {
 
             dishFlavorMapper.insertBatch(flavors);
         }
+    }
+
+    @Override
+    public List<Dish> queryDishesByCategoryId(Long categoryId) {
+        List<Dish> dishes=dishMapper.queryDishesByCategoryId(categoryId);
+        return dishes;
+    }
+
+    @Override
+    public void startOrStop(Integer status, Long id) {
+        Dish dish=Dish.builder().status(status).id(id).build();
+        dishMapper.update(dish);
     }
 
 }
