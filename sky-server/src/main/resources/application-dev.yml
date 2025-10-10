@@ -12,3 +12,8 @@ sky:
     access-key-id:
     access-key-secret:
     bucket-name: web-tlias-demo17gzm
+
+  redis:
+    host: localhost
+    port: 6379
+    database: 10
